@@ -34,7 +34,7 @@
         <!-- Intro Text -->
         <div class="intro-text fade-in fade-in-2">
 
-          <h2>Wefit Contracting & Maintenance LLC workspace portal</h2>
+          <h2>WEFIT Workspace portal</h2>
           <p>
             Connect with your team, manage projects, and drive success with our
             intuitive platform.
@@ -95,8 +95,36 @@
   <!-- All your existing forms here -->
 
 <form id="dailyForm">
-  <label>Site Name:</label><input name="Site Name" required>
-  <label>Task:</label><input name="Task" required>
+<label for="siteName">Site Name:</label>
+<select name="Site Name" id="siteName" required>
+  <option value="" disabled selected>Select Site</option>
+  <option value="Damac Hills">Damac Hills</option>
+  <option value="Downtown">Downtown</option>
+  <option value="JVC">JVC</option>
+  <option value="Palm Jumeirah">Palm Jumeirah</option>
+
+
+  <!-- Add more sites here as needed --></select>
+  <label for="empName">Employee Name:</label>
+<select name="Employee Name" id="empName" required>
+  <option value="" disabled selected>Select Name</option>
+  <option value="Mahendran">Mahendran</option>
+  <option value="Prince">Prince</option>
+  <option value="Suchin">Suchin</option>
+  <option value="Arjun">Arjun</option>
+  <option value="Samsad">Samsad</option>
+  </select>
+  <label for="taskNo">Task No:</label>
+<select name="TasK No" id="taskNo" required>
+  <option value="" disabled selected>Select Task</option>
+  <option value="T01">TO1</option>
+  <option value="TO2">T02</option>
+  <option value="T03">T03</option>
+  <option value="T04">TO4</option>
+  <option value="T05">TO5</option>
+
+
+  <!-- Add more sites here as needed --></select>
   <label>Progress (%):</label><input name="Progress (%)" type="number" min="0" max="100" required>
   <label>Remarks:</label><textarea name="Remarks"></textarea>
   <button type="submit">Submit Work</button>
