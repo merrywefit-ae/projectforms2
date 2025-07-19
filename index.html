@@ -95,40 +95,40 @@
   <!-- All your existing forms here -->
 
 <form id="dailyForm">
-<label for="siteName">Site Name:</label>
-<select name="Site Name" id="siteName" required>
-  <option value="" disabled selected>Select Site</option>
-  <option value="Damac Hills">Damac Hills</option>
-  <option value="Downtown">Downtown</option>
-  <option value="JVC">JVC</option>
-  <option value="Palm Jumeirah">Palm Jumeirah</option>
-
-
-  <!-- Add more sites here as needed --></select>
-  <label for="empName">Employee Name:</label>
-<select name="Employee Name" id="empName" required>
-  <option value="" disabled selected>Select Name</option>
-  <option value="Mahendran">Mahendran</option>
-  <option value="Prince">Prince</option>
-  <option value="Suchin">Suchin</option>
-  <option value="Arjun">Arjun</option>
-  <option value="Samsad">Samsad</option>
+  <label for="siteName">Site Name:</label>
+  <select name="Site Name" id="siteName" required>
+    <option value="" disabled selected>Select Site</option>
+    <option value="Damac Hills">Damac Hills</option>
+    <option value="Downtown">Downtown</option>
+    <option value="JVC">JVC</option>
+    <option value="Palm Jumeirah">Palm Jumeirah</option>
   </select>
+
+  <label for="employeeName">Employee Name:</label>
+  <select name="Employee Name" id="employeeName" required>
+    <option value="" disabled selected>Select Employee Name</option>
+    <option value="Mahendran">Mahendran</option>
+    <option value="Prince">Prince</option>
+    <option value="Suchin">Suchin</option>
+  </select>
+
   <label for="taskNo">Task No:</label>
-<select name="TasK No" id="taskNo" required>
-  <option value="" disabled selected>Select Task</option>
-  <option value="T01">TO1</option>
-  <option value="TO2">T02</option>
-  <option value="T03">T03</option>
-  <option value="T04">TO4</option>
-  <option value="T05">TO5</option>
+  <select name="Task No" id="taskNo" required>
+    <option value="" disabled selected>Select Task</option>
+    <option value="T01">T01</option>
+    <option value="T02">T02</option>
+    <option value="T03">T03</option>
+  </select>
 
+  <label>Progress (%):</label>
+  <input type="number" name="Progress (%)" required>
 
-  <!-- Add more sites here as needed --></select>
-  <label>Progress (%):</label><input name="Progress (%)" type="number" min="0" max="100" required>
-  <label>Remarks:</label><textarea name="Remarks"></textarea>
-  <button type="submit">Submit Work</button>
+  <label>Remarks:</label>
+  <input type="text" name="Remarks" required>
+
+  <button type="submit">Submit</button>
 </form>
+
 <div id="dailyRecords">
   <h4>Submitted Entries</h4>
   <table border="1" id="dailyWorkTable">
@@ -207,7 +207,7 @@
 <script>
    async function loadDailyWorkRecords() {
     try {
-      const response = await fetch('https://script.google.com/macros/s/AKfycby4BWCKJ0A9sK13ck3CbkKJX5AcgUXFS6746XTcQ2lVXOENRgVDAFVzDQAMnYUOCtTApQ/exec');
+      const response = await fetch('https://script.google.com/macros/s/AKfycby4cFargJJBsy_F1Rltend_ZUcCq99DYY3zYNWgmf01BO4lKgpqZw0B6tcwJxwomLc/exec');
       const data = await response.json();
       const table = document.getElementById('dailyWorkTable').querySelector('tbody');
       table.innerHTML = ''; // Clear old data
@@ -229,26 +229,30 @@
 </script>
   
 <script>
-    const scriptURL = 'https://script.google.com/macros/s/AKfycby4BWCKJ0A9sK13ck3CbkKJX5AcgUXFS6746XTcQ2lVXOENRgVDAFVzDQAMnYUOCtTApQ/exec';
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbxgXWPonADh8jPzbGqLgH72mxI1R7kXcRgxEGDhHe0GcGBmmfCcEOhdg3aGVOK6gDgDww/exec';
 
-    function handleSubmit(formId, formName) {
-      const form = document.getElementById(formId);
-      form.addEventListener('submit', e => {
-        e.preventDefault();
-        const data = { form: formName };
-        [...form.elements].forEach(el => {
-          if (el.name) data[el.name] = el.value;
-        });
-        fetch(scriptURL, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data)
-        });
-        alert('Submitted!');
-        form.reset();
-      });
-    }
+
+function handleSubmit(formId, formName) {
+  const form = document.getElementById(formId);
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const data = { form: formName };
+
+    [...form.elements].forEach(el => {
+      if (el.name) data[el.name] = el.value;
+    });
+
+    fetch(scriptURL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+
+    alert('Submitted!');
+    form.reset();
+  });
+}
 
     window.onload = function() {
       handleSubmit('dailyForm', 'DailyWork');
