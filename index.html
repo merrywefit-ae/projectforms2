@@ -95,36 +95,93 @@
   <!-- All your existing forms here -->
 
 <form id="dailyForm">
-  <label for="siteName">Site Name:</label>
-  <select name="Site Name" id="siteName" required>
-    <option value="" disabled selected>Select Site</option>
+    <label id="currentDateLabel">Date: </label>
+  <label for="projName">Project Name:</label>
+  <select name="Project Name" id="projName" required>
+    <option value="" disabled selected>Select Project Name</option>
     <option value="Damac Hills">Damac Hills</option>
     <option value="Downtown">Downtown</option>
     <option value="JVC">JVC</option>
     <option value="Palm Jumeirah">Palm Jumeirah</option>
   </select>
 
-  <label for="employeeName">Employee Name:</label>
-  <select name="Employee Name" id="employeeName" required>
-    <option value="" disabled selected>Select Employee Name</option>
-    <option value="Mahendran">Mahendran</option>
-    <option value="Prince">Prince</option>
-    <option value="Suchin">Suchin</option>
+  <label for="repby">Reported By:</label>
+  <select name="Reported By" id="repby" required>
+    <option value="" disabled selected>Select Name</option>
+    <option value="Jasir">Jasir</option>
+    <option value="Ajin">Ajin</option>
+   
   </select>
 
-  <label for="taskNo">Task No:</label>
-  <select name="Task No" id="taskNo" required>
+<label for="taskNo">Task No:</label>
+<select name="Task No" id="taskNo" required onchange="updateTaskDescription()">
+  <option value="" disabled selected>Select Task</option>
+  <option value="T01">T01</option>
+  <option value="T02">T02</option>
+  <option value="T03">T03</option>
+</select>
+
+<!-- This input will show the task description -->
+<label for="taskDescription">Task Description:</label>
+<input type="text" id="taskDescription" name="Task Description" readonly />
+
+  <label>Completion (%):</label>
+  <input type="number" name="Completion (%)" required>
+
+  <label>Manpower Used:</label>
+  <input type="number" name="Manpower Used" required>
+
+  <div id="manpowerContainer">
+  <div class="manpower-entry">
+    <label>Employee Name:</label>
+    <select name="Employee Name[]" required>
+      <option value="" disabled selected>Select Employee</option>
+      <option value="Mahendran">Mahendran</option>
+      <option value="Prince">Prince</option>
+      <option value="Suchin">Suchin</option>
+    </select>
+
+    <label>Manpower Used:</label>
+    <input type="number" name="Manpower Used[]" required>
+  </div>
+</div>
+
+<!-- Add Button -->
+<button type="button" onclick="addManpower()">➕ Add Employee</button>
+
+<div id="taskContainer">
+ <div class="task-entry">
+  <button type="button" class="remove-btn" onclick="removeTask(this)">✖</button>
+
+  <label>Task No:</label>
+  <select name="Task No[]" required>
     <option value="" disabled selected>Select Task</option>
     <option value="T01">T01</option>
     <option value="T02">T02</option>
     <option value="T03">T03</option>
   </select>
 
-  <label>Progress (%):</label>
-  <input type="number" name="Progress (%)" required>
+  <label>Task Description:</label>
+  <input type="text" name="Task Description[]" required>
+</div>
+</div>
+<div class="task-entry">
+  <button type="button" class="remove-btn" onclick="removeTask(this)">✖</button>
 
-  <label>Remarks:</label>
-  <input type="text" name="Remarks" required>
+  <label for="taskNo">Task No:</label>
+  <select name="Task No[]" required>
+    <option value="" disabled selected>Select Task</option>
+    <option value="T01">T01</option>
+    <option value="T02">T02</option>
+    <option value="T03">T03</option>
+  </select>
+
+  <label for="taskDescription">Task Description:</label>
+  <input type="text" name="Task Description[]" required>
+</div>
+
+<!-- Add Task Button -->
+<button type="button" onclick="addTask()">➕ New Task</button>
 
   <button type="submit">Submit</button>
 </form>
@@ -145,7 +202,7 @@
   </table>
 </div>
 
-<h2>Manpower</h2>
+<!--<h2>Manpower</h2>
 <form id="manpowerForm">
   <label>Site Name:</label><input name="Site Name" required>
   <label>Labor Type:</label><input name="Labor Type" required>
@@ -175,7 +232,7 @@
   <label>Item (e.g., Concrete):</label><input name="Item" required>
   <label>Amount (AED):</label><input name="Amount (AED)" type="number" required>
   <button type="submit">Submit Cost</button>
-</form>
+</form>-->
 
 </div>
   </section>
@@ -207,7 +264,7 @@
 <script>
    async function loadDailyWorkRecords() {
     try {
-      const response = await fetch('https://script.google.com/macros/s/AKfycby4cFargJJBsy_F1Rltend_ZUcCq99DYY3zYNWgmf01BO4lKgpqZw0B6tcwJxwomLc/exec');
+      const response = await fetch('https://script.google.com/macros/s/AKfycbwDmIZAJexD8GudcX2s53-FCNEiPlSLwqV9MTGBD-nej2scVNNZZ3nS19JxhGo4kEeu6g/exec');
       const data = await response.json();
       const table = document.getElementById('dailyWorkTable').querySelector('tbody');
       table.innerHTML = ''; // Clear old data
@@ -229,7 +286,7 @@
 </script>
   
 <script>
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbxgXWPonADh8jPzbGqLgH72mxI1R7kXcRgxEGDhHe0GcGBmmfCcEOhdg3aGVOK6gDgDww/exec';
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbwDmIZAJexD8GudcX2s53-FCNEiPlSLwqV9MTGBD-nej2scVNNZZ3nS19JxhGo4kEeu6g/exec';
 
 
 function handleSubmit(formId, formName) {
@@ -261,6 +318,116 @@ function handleSubmit(formId, formName) {
       handleSubmit('costForm', 'CostEntry');
     };
   </script>
+  <script>
+  // Set today's date inside the label
+  const dateLabel = document.getElementById("currentDateLabel");
+  const today = new Date();
+  const formattedDate = today.toLocaleDateString('en-GB', {
+    day: '2-digit', month: 'short', year: 'numeric'
+  });
+  dateLabel.textContent = "Date: " + formattedDate;
+</script>
+
+<script>
+  const taskDetails = {
+    T01: "Demolition work for living room and kitchen",
+    T02: "Tile fixing and grouting in bathrooms",
+    T03: "Painting and wall touch-up",
+  };
+
+  function updateTaskDescription() {
+    const taskNo = document.getElementById("taskNo").value;
+    const description = taskDetails[taskNo] || "";
+    document.getElementById("taskDescription").value = description;
+  }
+</script>
+
+<script>
+  function addManpower() {
+    const container = document.getElementById("manpowerContainer");
+
+    // Create new entry block
+    const div = document.createElement("div");
+    div.classList.add("manpower-entry");
+
+    div.innerHTML = `
+      <label>Employee Name:</label>
+      <select name="Employee Name[]" required>
+        <option value="" disabled selected>Select Employee</option>
+        <option value="Mahendran">Mahendran</option>
+        <option value="Prince">Prince</option>
+        <option value="Suchin">Suchin</option>
+      </select>
+
+      <label>Manpower Used:</label>
+      <input type="number" name="Manpower Used[]" required>
+    `;
+
+    container.appendChild(div);
+  }
+</script>
+<script>
+  function addTask() {
+    const container = document.getElementById("taskContainer");
+
+    const div = document.createElement("div");
+    div.classList.add("task-entry");
+
+    div.innerHTML = `
+      <label>Task No:</label>
+      <select name="Task No[]" required>
+        <option value="" disabled selected>Select Task</option>
+        <option value="T01">T01</option>
+        <option value="T02">T02</option>
+        <option value="T03">T03</option>
+      </select>
+
+      <label>Task Description:</label>
+      <input type="text" name="Task Description[]" required>
+
+      <button type="button" class="remove-btn" onclick="removeTask(this)">✖</button>
+    `;
+
+    container.appendChild(div);
+  }
+
+  function removeTask(button) {
+    const taskEntry = button.closest('.task-entry');
+    if (document.querySelectorAll('.task-entry').length > 1) {
+      taskEntry.remove();
+    } else {
+      alert("At least one task is required.");
+    }
+  }
+</script>
+<script>
+  function addManpower() {
+    const container = document.createElement('div');
+    container.className = 'manpower-entry';
+    container.style.position = 'relative';
+
+    container.innerHTML = `
+      <button type="button" class="remove-btn" onclick="removeManpower(this)">✖</button>
+
+      <label>Employee Name:</label>
+      <select name="Employee Name[]" required>
+        <option value="" disabled selected>Select Employee</option>
+        <option value="Mahendran">Mahendran</option>
+        <option value="Prince">Prince</option>
+        <option value="Suchin">Suchin</option>
+      </select>
+
+      <label>Manpower Used:</label>
+      <input type="number" name="Manpower Used[]" required>
+    `;
+
+    document.getElementById('manpowerContainer').appendChild(container);
+  }
+
+  function removeManpower(button) {
+    button.parentElement.remove();
+  }
+</script>
 
   <script>
   function checkLogin() {
